@@ -1,0 +1,111 @@
+// Copyright © 2020 Lexi Frydl
+//
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this
+// file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+mod from_idn;
+mod future;
+mod prelude;
+mod runtime;
+
+use crate::prelude::*;
+
+/// A derive macro for the `Error` trait that uses all the default method
+/// implementations.
+#[proc_macro_derive(Error)]
+pub fn derive_error(item: proc_macro::TokenStream) -> proc_macro::TokenStream {
+  let item = syn::parse_macro_input!(item as syn::Item);
+
+  let (name, generics) = match &item {
+    syn::Item::Enum(item) => (&item.ident, &item.generics),
+    syn::Item::Struct(item) => (&item.ident, &item.generics),
+    _ => abort!(item.span(), "Expected enum or a struct."),
+  };
+
+  let generic_params = &generics.params;
+  let where_clause = &generics.where_clause;
+
+  let result = quote! {
+    impl<#generic_params> std::error::Error for #name<#generic_params> #where_clause {}
+  };
+
+  result.into()
+}
+
+/// A derive macro for the `FromIdn` trait.
+#[proc_macro_derive(FromIdn, attributes(idn))]
+#[proc_macro_error]
+pub fn derive_from_idn(item: proc_macro::TokenStream) -> proc_macro::TokenStream {
+  from_idn::impl_for_item(syn::parse_macro_input!(item as syn::Item))
+}
+
+/// Waits for all given futures to complete and returns their outputs as a
+/// tuple.
+#[proc_macro]
+#[proc_macro_error]
+pub fn future_join(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+  future::join(input).into()
+}
+
+/// Waits for one of the given futures to complete and then returns the output.
+///
+/// The other futures are canceled.
+#[proc_macro]
+#[proc_macro_error]
+pub fn future_race(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+  future::race(input).into()
+}
+
+/// Defines an async main function that runs on the Indigo runtime.
+///
+/// ## Example
+///
+/// ```ignore
+/// use indigo::prelude::*;
+///
+/// #[indigo::main]
+/// async fn main() {
+///   println!("Hello Indigo!");
+/// }
+/// ```
+///
+/// ## Returning a result
+///
+/// The `main` function may return a `Result<(), T>`. If the return value is an
+/// `Err(T)` the error is written to stderr and the process exits with an exit
+/// code of `1`.
+///
+/// ```ignore
+/// #[indigo::main]
+/// async fn main() -> Result<(), String> {
+///   Err("This message is written to stderr.".into())
+/// }
+/// ```
+///
+/// ## Parsing command-line arguments
+///
+/// _Requires the `cli` feature._
+///
+/// The `main` function may optionally have one parameter. If this parameter
+/// implements `StructOpt`, it is parsed from the command-line arguments.
+///
+/// ```ignore
+/// #[derive(Debug, StructOpt)]
+/// struct Options {
+///   #[structopt(short, long)]
+///   verbose: bool,
+/// }
+///
+/// #[indigo::main]
+/// async fn main(options: Options) {
+///   println!("{:#?}", options);
+/// }
+/// ```
+#[proc_macro_attribute]
+pub fn runtime_main(
+  _: proc_macro::TokenStream,
+  item: proc_macro::TokenStream,
+) -> proc_macro::TokenStream {
+  runtime::main(item)
+}
