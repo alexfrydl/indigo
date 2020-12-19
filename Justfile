@@ -48,4 +48,4 @@ publish package=".":
   #!/bin/fish 
 
   set -l root (pwd)
-  cd {{package}} && cargo publish --target-dir $root/target
+  cd {{package}} && cargo publish --all-features --target-dir $root/target
