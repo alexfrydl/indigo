@@ -21,7 +21,7 @@ pub use crate::log::{self, debug, error, info, trace, warn};
 pub use crate::math::{one, zero, Number, One, Zero};
 pub use crate::random::{self, Random, Rng};
 pub use crate::stream::{self, Stream, StreamExt};
-pub use crate::sync::blocking::{block_on, unblock};
+pub use crate::sync::blocking::unblock;
 pub use crate::sync::pin;
 pub use crate::task::{self, Task};
 pub use crate::thread::{self, Thread};
@@ -34,6 +34,9 @@ pub use crate::cli::{structopt, StructOpt};
 
 #[cfg(feature = "postgres")]
 pub use crate::postgres;
+
+#[cfg(feature = "runtime")]
+pub(crate) use crate::runtime;
 
 pub use std::borrow::*;
 pub use std::cmp::{self, Eq, Ord, PartialEq, PartialOrd};

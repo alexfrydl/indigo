@@ -16,6 +16,8 @@ pub use self::zone::{Zone, LOCAL, UTC};
 
 use crate::prelude::*;
 use chrono::TimeZone;
+
+#[cfg(feature = "postgres")]
 use postgres::{FromSql, ToSql};
 
 /// A timestamp with a time zone.
@@ -94,6 +96,7 @@ impl Time {
   }
 
   /// Converts to a `NaiveDateTime`.
+  #[cfg(feature = "postgres")]
   fn to_naive(&self) -> chrono::NaiveDateTime {
     match &self.zone {
       Zone::Local => self.inner.with_timezone(&chrono::Local).naive_local(),

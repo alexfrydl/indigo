@@ -7,6 +7,8 @@
 use super::Zone;
 use crate::prelude::*;
 use chrono::TimeZone;
+
+#[cfg(feature = "postgres")]
 use postgres::{FromSql, ToSql};
 
 #[derive(Clone, Copy, Eq, From, Into, Ord, PartialEq, PartialOrd)]

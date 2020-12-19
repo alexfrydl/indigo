@@ -8,7 +8,7 @@
 
 use crate::fs;
 use crate::prelude::*;
-use crate::sync::{blocking::block_on, channel};
+use crate::sync::channel;
 use notify::Watcher as _;
 use std::io;
 use std::sync::mpsc;
@@ -89,7 +89,7 @@ impl Watcher {
     let inner = notify::Watcher::new(inner_events_tx, std::time::Duration::from_millis(100))?;
 
     Thread::spawn("indigo::fs::watch::Watcher", move || {
-      block_on(map_inner_events(inner_events, events_tx))
+      thread::block_on(map_inner_events(inner_events, events_tx))
     })
     .detach();
 

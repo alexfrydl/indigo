@@ -19,7 +19,12 @@ pub struct Thread<T> {
   handle: Option<JoinHandle<T>>,
 }
 
-/// Sleeps the current thread for a given duration.
+/// Blocks the current thread until the given future completes.
+pub fn block_on<T>(future: impl Future<Output = T>) -> T {
+  async_executor::LocalExecutor::new().run(future)
+}
+
+/// Blocks the current thread for a given duration.
 pub fn sleep(dur: Duration) {
   std::thread::sleep(dur.into());
 }

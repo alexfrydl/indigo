@@ -47,6 +47,7 @@ pub fn main(item: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
   // Generate the output.
 
+  #[allow(unused_mut)]
   let mut init = TokenStream::new();
 
   #[cfg(feature = "dotenv")]

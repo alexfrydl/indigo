@@ -6,7 +6,7 @@
 
 //! Contains the main entry point code for running Indigo applications.
 
-#[cfg(feature = "event_loop")]
+#[cfg(feature = "window")]
 mod event_loop;
 
 #[cfg(feature = "window")]
@@ -125,9 +125,9 @@ pub(crate) fn executor() -> &'static Executor {
 
 /// Runs the main thread.
 fn main(future: impl Future<Output = Result> + Send + 'static) -> Result {
-  #[cfg(feature = "event_loop")]
+  #[cfg(feature = "window")]
   event_loop::run(future);
 
-  #[cfg(not(feature = "event_loop"))]
-  indigo::sync::blocking::block_on(future)
+  #[cfg(not(feature = "window"))]
+  thread::block_on(future)
 }

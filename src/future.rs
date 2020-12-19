@@ -14,9 +14,12 @@ pub use self::{
   race::{race, Race},
 };
 
-pub use futures_lite::future::{poll_fn, PollFn};
-
-pub use std::{future::Future, task::Poll};
+#[doc(inline)]
+pub use {
+  blocking::unblock,
+  futures_lite::future::{poll_fn, PollFn},
+  std::{future::Future, task::Poll},
+};
 
 use crate::prelude::*;
 

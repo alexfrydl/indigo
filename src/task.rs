@@ -9,7 +9,6 @@
 pub use std::task::Context;
 
 use crate::prelude::*;
-use crate::runtime;
 
 /// A handle to a task running a future on the Indigo runtime.
 ///
@@ -23,6 +22,7 @@ pub struct Task<T> {
 
 impl<T: Send + 'static> Task<T> {
   /// Spawns a new task onto the Indigo runtime.
+  #[cfg(feature = "runtime")]
   pub fn spawn(future: impl Future<Output = T> + Send + 'static) -> Self {
     Self { detached: false, inner: Some(runtime::executor().spawn(future)) }
   }

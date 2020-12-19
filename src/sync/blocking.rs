@@ -11,10 +11,3 @@
 
 #[doc(inline)]
 pub use {::blocking::unblock, parking_lot::*};
-
-use crate::prelude::*;
-
-/// Blocks the current thread until the given future completes.
-pub fn block_on<T>(future: impl Future<Output = T>) -> T {
-  async_executor::LocalExecutor::new().run(future)
-}

@@ -19,6 +19,7 @@ pub mod math;
 pub mod postgres;
 pub mod prelude;
 pub mod random;
+#[cfg(feature = "runtime")]
 pub mod runtime;
 pub mod stream;
 mod symbol;
@@ -32,9 +33,12 @@ mod unique_id;
 pub use {
   self::{random::random, symbol::Symbol, unique_id::UniqueId},
   indigo_macros::{attempt, attempt_async},
-  runtime::main,
   uuid::{self, Uuid},
 };
+
+#[cfg(feature = "runtime")]
+#[doc(inline)]
+pub use self::runtime::main;
 
 #[cfg(feature = "cli")]
 pub mod cli;
