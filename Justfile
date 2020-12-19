@@ -43,3 +43,10 @@ license:
     and cat $file >> $file.tmp
     and mv $file{.tmp,}
   end
+
+publish:
+  cd proc-macros && cargo publish --target-dir ../target
+  cd macros && cargo publish --target-dir ../target
+  cd structopt/structopt-derive && cargo publish --target-dir ../../target
+  cd structopt && cargo publish --target-dir ../target
+  cargo publish

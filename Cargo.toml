@@ -1,5 +1,6 @@
 [package]
 authors = ["Alexandra Frydl <me@alexfrydl.com>"]
+description = "A framework and utility library for modern applications."
 edition = "2018"
 name = "indigo"
 license = "MPL-2.0"

@@ -1,6 +1,8 @@
 [package]
-authors = ["Lexi Frydl <me@lexifry.com>"]
+authors = ["Alexandra Frydl <me@alexfrydl.com>"]
+description = "Macros for the indigo crate."
 edition = "2018"
+license = "MPL-2.0"
 name = "indigo-macros"
 version = "0.1.0"
 
