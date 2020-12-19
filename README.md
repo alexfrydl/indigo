@@ -1,3 +1,5 @@
 # indigo
 
-Indigo is a Rust application framework with optional features for game engines.
+**indigo** is a framework and utility library for modern Rust applications.
+
+[Reference documentation](https://docs.rs/indigo)
