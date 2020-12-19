@@ -6,6 +6,7 @@ version = "0.1.0"
 
 [features]
 default = []
+default-runtime = ["cli", "logger", "runtime"]
 
 cli = ["structopt"]
 dotenv = ["dotenv_crate", "indigo-proc-macros/dotenv"]
@@ -14,13 +15,13 @@ graphics = ["gfx-backend", "gfx-descriptor", "gfx-hal"]
 idn = ["unicode-xid"]
 logger = ["indigo-proc-macros/logger"]
 postgres = ["bytes", "native-tls", "postgres-native-tls", "tokio-compat", "tokio-postgres"]
-runtime = []
+runtime = ["easy-parallel", "num_cpus"]
 tokio-compat = ["tokio/rt-threaded"]
 window = ["runtime", "winit"]
 
 [dependencies]
 arrayvec = "0.5"
-async-channel = "1.4"
+async-channel = "1"
 async-executor = "0.1"
 async-io = "0.1"
 base64 = "0.12"
@@ -28,31 +29,31 @@ blocking = "0.5"
 chrono = "0.4"
 chrono-tz = "0.5"
 console = "0.12"
-dashmap = "3.11"
+dashmap = "3"
 derive_more = "0.99"
-easy-parallel = "3.1"
-event-listener = "2.3"
+event-listener = "2"
 futures-lite = "0.1"
 glob = "0.3"
-im = "15.0"
+im = "15"
 indigo-macros = { path = "macros" }
 indigo-proc-macros = { path = "proc-macros" }
 itertools = "0.9"
 log_crate = { package = "log", version = "0.4", features = ["std"] }
-num_cpus = "1.13"
 num-traits = "0.2"
-once_cell = { version = "1.3", features = ["parking_lot"] }
+once_cell = { version = "1", features = ["parking_lot"] }
 parking_lot = "0.11"
-parse_duration = "2.1"
+parse_duration = "2"
 rand = "0.7"
 rand_xoshiro = "0.4"
 serde = "1"
 uuid = { version = "0.8", features = ["serde", "v4"] }
 
 dotenv_crate = { package = "dotenv", version = "0.15", optional = true }
+easy-parallel = { version = "3", optional = true }
 gfx-descriptor = { version = "0.2", optional = true }
 gfx-hal = { version = "0.6", optional = true }
-notify = { version = "4.0", optional = true }
+notify = { version = "4", optional = true }
+num_cpus = { version = "1", optional = true }
 structopt = { git = "https://gitlab.com/lexifry/structopt-exportable", optional = true }
 tokio = { version = "0.2", optional = true }
 unicode-xid = { version = "0.2", optional = true }

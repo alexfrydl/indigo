@@ -47,6 +47,7 @@ impl Window {
   }
 
   /// Returns a reference to the inner [`winit::window::Window`].
+  #[cfg(feature = "graphics")]
   pub(crate) fn as_winit(&self) -> &WinitWindow {
     &self.window
   }
