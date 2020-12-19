@@ -5,14 +5,13 @@ edition = "2018"
 name = "indigo"
 license = "MPL-2.0"
 repository = "https://gitlab.com/alexfrydl/indigo"
-version = "0.1.2"
+version = "0.1.3"
 
 [package.metadata.docs.rs]
 all-features = true
 
 [features]
-default = []
-default-runtime = ["cli", "logger", "runtime"]
+default = ["cli", "logger", "runtime"]
 
 cli = ["structopt"]
 dotenv = ["dotenv_crate", "indigo-proc-macros/dotenv"]
