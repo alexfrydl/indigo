@@ -1,5 +1,5 @@
 [package]
-name = "structopt-derive"
+name = "indigo-structopt-derive"
 version = "0.4.14"
 edition = "2018"
 authors = ["Guillaume Pinot <texitoi@texitoi.eu>"]
