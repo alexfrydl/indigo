@@ -33,7 +33,9 @@ license:
   "
 
   for file in **/*.rs
-    if grep -q "http://mozilla.org/MPL/2.0/" $file
+    if string match -q 'structopt/*' $file
+      continue
+    else if grep -q "http://mozilla.org/MPL/2.0/" $file
       continue
     end
 
