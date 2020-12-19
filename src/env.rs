@@ -24,7 +24,7 @@ pub enum VarError {
   NotUnicode,
 }
 
-/// One of the possible errors returned by [`current_path()`].
+/// One of the possible errors returned by [`working_path()`].
 #[derive(Debug, Display, Error)]
 pub enum WorkingPathError {
   /// The working path was not found.

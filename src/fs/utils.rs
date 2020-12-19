@@ -4,10 +4,8 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-use crate::{
-  prelude::*,
-  sync::{blocking::unblock, Lazy, Semaphore},
-};
+use crate::prelude::*;
+use crate::sync::{Lazy, Semaphore};
 
 /// A shared semaphore to limit the number of concurrent file system operations.
 static SEMAPHORE: Lazy<Semaphore> = Lazy::new(|| Semaphore::new(8));
@@ -28,7 +26,7 @@ pub async fn glob(pattern: impl Into<String>) -> Result<Vec<String>> {
   let pattern = pattern.into();
   let _permit = SEMAPHORE.acquire().await;
 
-  unblock! {
+  future::unblock! {
     // Find all matching files.
 
     let paths = glob::glob_with(&pattern, MATCH_OPTS)?;

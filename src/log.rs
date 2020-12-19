@@ -8,11 +8,9 @@
 
 #[doc(inline)]
 pub use {
+  self::Level::*,
   indigo_macros::log_init as init,
-  log_crate::{
-    debug, error, info, trace, warn,
-    Level::{self, *},
-  },
+  log_crate::{debug, error, info, trace, warn, Level},
 };
 
 #[cfg(feature = "logger")]

@@ -13,6 +13,7 @@ pub use self::describe::{AsDescription, Describe};
 #[doc(inline)]
 pub use console::style;
 
+#[doc(no_inline)]
 pub use std::fmt::*;
 
 /// Formats a string as a file sytem path.

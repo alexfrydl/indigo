@@ -7,6 +7,7 @@
 //! Path string manipulation and inspection.
 
 pub use indigo_macros::{path_join as join, path_normalize as normalize, path_resolve as resolve};
+
 #[doc(inline)]
 pub use std::path::{is_separator, MAIN_SEPARATOR as SEPARATOR};
 

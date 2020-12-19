@@ -15,12 +15,8 @@ pub mod future;
 pub mod iter;
 pub mod log;
 pub mod math;
-#[cfg(feature = "postgres")]
-pub mod postgres;
 pub mod prelude;
 pub mod random;
-#[cfg(feature = "runtime")]
-pub mod runtime;
 pub mod stream;
 mod symbol;
 pub mod sync;
@@ -31,17 +27,26 @@ mod unique_id;
 
 #[doc(inline)]
 pub use {
-  self::{random::random, symbol::Symbol, unique_id::UniqueId},
+  self::fail::fail,
+  self::random::random,
+  self::symbol::Symbol,
+  self::unique_id::UniqueId,
   indigo_macros::{attempt, attempt_async},
   uuid::{self, Uuid},
 };
-
-#[cfg(feature = "runtime")]
-#[doc(inline)]
-pub use self::runtime::main;
 
 #[cfg(feature = "cli")]
 pub mod cli;
 
 #[cfg(feature = "graphics")]
 pub mod graphics;
+
+#[cfg(feature = "postgres")]
+pub mod postgres;
+
+#[cfg(feature = "runtime")]
+pub mod runtime;
+
+#[cfg(feature = "runtime")]
+#[doc(inline)]
+pub use self::runtime::main;

@@ -14,11 +14,9 @@ mod semaphore;
 
 #[doc(inline)]
 pub use {
-  self::{
-    atomic::*,
-    request::{request, Request},
-    semaphore::Semaphore,
-  },
+  self::atomic::*,
+  self::request::{request, Request},
+  self::semaphore::Semaphore,
   async_io::Timer,
   event_listener::{Event, EventListener},
   futures_lite::pin,

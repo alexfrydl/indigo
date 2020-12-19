@@ -6,17 +6,24 @@
 
 //! Collection types.
 
+#[doc(inline)]
+pub use {
+  arrayvec::{Array, ArrayString, ArrayVec},
+  std::collections::{binary_heap, BinaryHeap},
+  std::collections::{btree_map, BTreeMap},
+  std::collections::{btree_set, BTreeSet},
+  std::collections::{hash_map, HashMap},
+  std::collections::{hash_set, HashSet},
+  std::collections::{linked_list, LinkedList},
+  std::collections::{vec_deque, VecDeque},
+};
+
 /// Fixed-capacity vectors and strings provided by the `arrayvec` crate.
 ///
 #[doc(inline)]
 pub use arrayvec;
 
-#[doc(inline)]
-pub use arrayvec::{Array, ArrayString, ArrayVec};
-
 /// Immutable collection types provided by the `im` crate.
 ///
 #[doc(inline)]
 pub use im as immutable;
-
-pub use std::collections::*;

@@ -7,9 +7,10 @@
 use crate::prelude::*;
 
 macro_rules! vector {
-  ($name:ident : $($x:ident = $i:expr),+ ; $name_str:expr) => {
+  ($name:ident : $($x:ident = $i:expr),+ ; $name_str:expr, $doc_str:expr) => {
     #[derive(Copy, Clone, PartialEq, Eq)]
     #[repr(C)]
+    #[doc = $doc_str]
     pub struct $name<T> {
       $(pub $x: T),+
     }
@@ -57,6 +58,6 @@ macro_rules! vector {
   };
 }
 
-vector!(Vector2: x = 0, y = 1; "Vector2");
-vector!(Vector3: x = 0, y = 1, z = 2; "Vector3");
-vector!(Vector4: x = 0, y = 1, z = 2, w = 3; "Vector4");
+vector!(Vector2: x = 0, y = 1; "Vector2", "A two-dimensional vector.");
+vector!(Vector3: x = 0, y = 1, z = 2; "Vector3", "A three-dimensional vector.");
+vector!(Vector4: x = 0, y = 1, z = 2, w = 3; "Vector4", "A four-dimensional vector.");

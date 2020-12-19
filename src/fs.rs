@@ -12,11 +12,11 @@
 pub mod path;
 mod utils;
 
+pub use self::path::PathLike;
+pub use self::utils::*;
+
 #[cfg(feature = "fs-watch")]
 mod watch;
-
-#[doc(inline)]
-pub use self::{path::PathLike, utils::*};
 
 #[cfg(feature = "fs-watch")]
 pub use self::watch::Watcher;

@@ -7,12 +7,15 @@
 //! Types and utilities for working with times, dates, and durations.
 
 mod date;
-mod duration;
-pub mod zone;
+pub mod duration;
+mod zone;
 
-pub use self::date::Date;
-pub use self::duration::*;
-pub use self::zone::{Zone, LOCAL, UTC};
+#[doc(inline)]
+pub use {
+  self::date::Date,
+  self::duration::Duration,
+  self::zone::{Zone, LOCAL, UTC},
+};
 
 use crate::prelude::*;
 use chrono::TimeZone;
