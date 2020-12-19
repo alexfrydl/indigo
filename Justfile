@@ -44,9 +44,8 @@ license:
     and mv $file{.tmp,}
   end
 
-publish:
-  cd proc-macros && cargo publish --target-dir ../target
-  cd macros && cargo publish --target-dir ../target
-  cd structopt/structopt-derive && cargo publish --target-dir ../../target
-  cd structopt && cargo publish --target-dir ../target
-  cargo publish
+publish package=".":
+  #!/bin/fish 
+
+  set -l root (pwd)
+  cd {{package}} && cargo publish --target-dir $root/target
