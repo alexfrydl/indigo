@@ -8,6 +8,10 @@
 help:
   just --list
 
+# Builds all features.
+build:
+  cargo build --workspace --all-features
+
 # Compiles shaders to SPIR-V.
 compile-shaders:
   #!/bin/fish
