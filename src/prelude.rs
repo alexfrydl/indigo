@@ -10,6 +10,7 @@
 pub use {
   crate as indigo,
   crate::derive::*,
+  crate::encoding::json,
   crate::fail::{self, fail, Result},
   crate::fmt::{self, Debug, Describe, Display, Write as _},
   crate::future::{self, Future},

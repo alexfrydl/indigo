@@ -7,3 +7,8 @@
 //! Encoding and decoding utilities.
 
 pub mod base64;
+
+/// JSON serialization provided by the `serde_json` crate.
+///
+#[doc(inline)]
+pub use serde_json as json;
