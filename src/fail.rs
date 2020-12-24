@@ -14,7 +14,7 @@ use crate::prelude::*;
 /// A generic cloneable error.
 #[derive(Clone)]
 pub struct Error {
-  message: Arc<String>,
+  message: Arc<str>,
 }
 
 /// Represents either success (`Ok`) or failure (`Err`).
