@@ -6,7 +6,7 @@
 
 mod fail;
 pub mod idn;
-mod log;
+mod logger;
 mod path;
 mod sync;
 

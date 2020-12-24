@@ -6,6 +6,7 @@
 
 //! Contains the main entry point code for running Indigo applications.
 
+pub mod logger;
 pub mod task;
 
 pub use indigo_proc_macros::runtime_main as main;

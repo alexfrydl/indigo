@@ -20,7 +20,7 @@ pub struct Thread<T> {
 
 /// Blocks the current thread until the given future completes.
 pub fn block_on<T>(future: impl Future<Output = T>) -> T {
-  async_executor::LocalExecutor::new().run(future)
+  futures_lite::future::block_on(future)
 }
 
 /// Blocks the current thread for a given duration.

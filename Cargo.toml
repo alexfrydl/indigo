@@ -11,17 +11,14 @@ version = "0.2.0-pre"
 all-features = true
 
 [features]
-default = ["logger", "runtime"]
+default = []
 
 dotenv = ["dotenv_crate", "indigo-proc-macros/dotenv"]
 fs-watch = ["notify"]
-graphics = ["gfx-backend", "gfx-descriptor", "gfx-hal"]
 idn = ["unicode-xid"]
-logger = ["indigo-proc-macros/logger"]
 postgres = ["bytes", "native-tls", "postgres-native-tls", "tokio-compat", "tokio-postgres"]
-runtime = ["async-executor", "async-io", "easy-parallel", "num_cpus"]
+runtime = ["async-executor", "async-io", "easy-parallel", "indigo-proc-macros/logger", "num_cpus"]
 tokio-compat = ["tokio/rt-threaded"]
-window = ["runtime", "winit"]
 
 [dependencies]
 arrayvec = "0.5"
@@ -54,8 +51,6 @@ async-executor = { version = "0.1", optional = true }
 async-io = { version = "0.1", optional = true }
 dotenv_crate = { package = "dotenv", version = "0.15", optional = true }
 easy-parallel = { version = "3", optional = true }
-gfx-descriptor = { version = "0.2", optional = true }
-gfx-hal = { version = "0.6", optional = true }
 notify = { version = "4", optional = true }
 num_cpus = { version = "1", optional = true }
 tokio = { version = "0.2", optional = true }
@@ -66,12 +61,3 @@ bytes = { version = "0.5", optional = true }
 native-tls = { version = "0.2", optional = true }
 postgres-native-tls = { version = "0.3", optional = true }
 tokio-postgres = { version = "0.5", optional = true, features = ["with-chrono-0_4", "with-serde_json-1", "with-uuid-0_8"] }
-
-[target.'cfg(target_os = "linux")'.dependencies]
-gfx-backend = { version = "0.6", features = ["x11", "xcb"], optional = true, package = "gfx-backend-vulkan" }
-
-[target.'cfg(target_os = "macos")'.dependencies]
-gfx-backend = { version = "0.6", optional = true, package = "gfx-backend-metal" }
-
-[target.'cfg(target_os = "windows")'.dependencies]
-gfx-backend = { version = "0.6", optional = true, package = "gfx-backend-dx12" }

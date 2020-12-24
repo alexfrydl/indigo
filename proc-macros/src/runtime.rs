@@ -49,7 +49,7 @@ pub fn main(item: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
   #[cfg(feature = "logger")]
   init.extend(quote! {
-    indigo::log::init!();
+    indigo::runtime::logger::init!();
   });
 
   let result = quote! {
