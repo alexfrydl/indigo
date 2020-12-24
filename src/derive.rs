@@ -8,3 +8,4 @@
 
 pub use derive_more::*;
 pub use indigo_proc_macros::Error;
+pub use serde::{Deserialize, Serialize};

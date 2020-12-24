@@ -22,7 +22,6 @@ pub use {
   crate::time::{self, Date, Duration, Time},
   crate::uuid::{self, Uuid},
   crate::{attempt, attempt_async},
-  serde::{Deserialize, Serialize},
   std::any::Any,
   std::borrow::*,
   std::cmp::{self, Eq, Ord, PartialEq, PartialOrd},
