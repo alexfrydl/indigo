@@ -43,11 +43,10 @@ pub fn run(future: impl Future<Output = Result> + Send + 'static) -> ! {
   panic::set_hook(Box::new(move |info| {
     IS_PANICKING.store(true);
 
-    Thread::spawn("panic fail-safe", || {
+    thread::start_detached("panic fail-safe", || {
       thread::sleep(Duration::secs(5));
       exit(101);
-    })
-    .detach();
+    });
 
     panic_hook(info)
   }));

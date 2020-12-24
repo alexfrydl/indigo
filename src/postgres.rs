@@ -34,12 +34,11 @@ pub async fn connect(config: &Config) -> Result<Connection> {
 
   let (client, connection) = config.connect(MakeTlsConnector::new(tls_connector)).await?;
 
-  Task::spawn(async move {
+  task::start_detached(async move {
     if let Err(err) = connection.await {
       error!("Postgres connection error — {}.", err);
     }
-  })
-  .detach();
+  });
 
   Ok(client)
 }

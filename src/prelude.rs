@@ -31,6 +31,7 @@ pub use {
   crate::time::{self, Date, Duration, Time},
   crate::uuid::{self, Uuid},
   crate::{self as indigo, attempt, attempt_async},
+  std::any::Any,
   std::borrow::*,
   std::cmp::{self, Eq, Ord, PartialEq, PartialOrd},
   std::convert::{TryFrom, TryInto},

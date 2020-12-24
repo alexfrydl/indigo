@@ -88,10 +88,9 @@ impl Watcher {
     let (inner_events_tx, inner_events) = mpsc::channel();
     let inner = notify::Watcher::new(inner_events_tx, std::time::Duration::from_millis(100))?;
 
-    Thread::spawn("indigo::fs::watch::Watcher", move || {
+    thread::start_detached("indigo::fs::watch::Watcher", move || {
       thread::block_on(map_inner_events(inner_events, events_tx))
-    })
-    .detach();
+    });
 
     Ok(Self { inner })
   }

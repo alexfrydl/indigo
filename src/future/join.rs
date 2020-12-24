@@ -6,15 +6,14 @@
 
 pub use indigo_proc_macros::future_join as join;
 
-use super::{buffered, task::Context, Buffered, Poll};
-use crate::prelude::*;
+use super::*;
 
 /// A future that waits for both of two futures to complete.
 pub struct Join<A: Future, B: Future>(Buffered<A>, Buffered<B>);
 
 /// Returns a future that waits for both of two futures to complete.
 pub fn join<A: Future, B: Future>(a: A, b: B) -> Join<A, B> {
-  Join(buffered(a), buffered(b))
+  Join(Buffered::new(a), Buffered::new(b))
 }
 
 // Implement Future for Join.
@@ -22,7 +21,7 @@ pub fn join<A: Future, B: Future>(a: A, b: B) -> Join<A, B> {
 impl<A: Future, B: Future> Future for Join<A, B> {
   type Output = (A::Output, B::Output);
 
-  fn poll(self: Pin<&mut Self>, cx: &mut Context) -> Poll<Self::Output> {
+  fn poll(self: Pin<&mut Self>, cx: &mut future::Context) -> Poll<Self::Output> {
     let mut ready = true;
 
     unsafe {

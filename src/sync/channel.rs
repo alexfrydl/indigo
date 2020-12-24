@@ -118,7 +118,7 @@ impl<T> Sender<T> {
 impl<T> Stream for Receiver<T> {
   type Item = T;
 
-  fn poll_next(mut self: Pin<&mut Self>, cx: &mut task::Context) -> future::Poll<Option<T>> {
+  fn poll_next(mut self: Pin<&mut Self>, cx: &mut future::Context) -> future::Poll<Option<T>> {
     Pin::new(&mut self.inner).poll_next(cx)
   }
 }

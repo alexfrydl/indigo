@@ -6,7 +6,7 @@
 
 //! An event loop for platform and window events.
 
-use super::{window, Task};
+use super::window;
 
 use crate::{
   prelude::*,
@@ -49,14 +49,13 @@ pub fn run(future: impl Future<Output = Result> + Send + 'static) -> ! {
   // Spawn the main task and send its result back to the event loop when it
   // completes.
 
-  Task::spawn(async move {
+  task::start_detached(async move {
     let result = future.await;
 
     trace!("Main task finished. Stopping event loop…");
 
     send(Command::Stop(result));
-  })
-  .detach();
+  });
 
   // Run the event loop until the task completes.
 

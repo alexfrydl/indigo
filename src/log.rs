@@ -63,7 +63,7 @@ mod logger {
     log_crate::set_max_level(LevelFilter::Trace);
 
     #[cfg(feature = "runtime")]
-    Task::spawn(output_messages()).detach();
+    task::start(output_messages()).detach();
 
     #[cfg(not(feature = "runtime"))]
     Thread::spawn(module_path!(), || block_on(output_messages())).detach();

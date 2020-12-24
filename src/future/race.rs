@@ -6,8 +6,7 @@
 
 pub use indigo_proc_macros::future_race as race;
 
-use super::Poll;
-use crate::prelude::*;
+use super::*;
 
 /// A future that waits for one of two futures to complete.
 pub struct Race<A, B>(pub A, pub B);
@@ -26,7 +25,7 @@ where
 {
   type Output = O;
 
-  fn poll(self: Pin<&mut Self>, cx: &mut task::Context) -> Poll<Self::Output> {
+  fn poll(self: Pin<&mut Self>, cx: &mut future::Context) -> Poll<Self::Output> {
     unsafe {
       let this = self.get_unchecked_mut();
 
