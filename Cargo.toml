@@ -15,7 +15,6 @@ default = []
 
 dotenv = ["dotenv_crate", "indigo-proc-macros/dotenv"]
 fs-watch = ["notify"]
-idn = ["im", "unicode-xid"]
 postgres = ["bytes", "native-tls", "postgres-native-tls", "tokio-compat", "tokio-postgres"]
 runtime = ["async-executor", "async-io", "dashmap", "easy-parallel", "num_cpus"]
 tokio-compat = ["tokio/rt-threaded"]
@@ -49,11 +48,6 @@ uuid = { version = "0.8", features = ["serde"] }
 
 dotenv_crate = { package = "dotenv", version = "0.15", optional = true }
 notify = { version = "4", optional = true }
-
-# IDN deps.
-
-im = { version = "15", optional = true }
-unicode-xid = { version = "0.2", optional = true }
 
 # Runtime deps.
 

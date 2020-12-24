@@ -4,7 +4,6 @@
 // License, v. 2.0. If a copy of the MPL was not distributed with this
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-mod from_idn;
 mod future;
 mod prelude;
 mod runtime;
@@ -31,13 +30,6 @@ pub fn derive_error(item: proc_macro::TokenStream) -> proc_macro::TokenStream {
   };
 
   result.into()
-}
-
-/// A derive macro for the `FromIdn` trait.
-#[proc_macro_derive(FromIdn, attributes(idn))]
-#[proc_macro_error]
-pub fn derive_from_idn(item: proc_macro::TokenStream) -> proc_macro::TokenStream {
-  from_idn::impl_for_item(syn::parse_macro_input!(item as syn::Item))
 }
 
 /// Waits for all given futures to complete and returns their outputs as a

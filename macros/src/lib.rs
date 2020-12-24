@@ -5,7 +5,6 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 mod fail;
-pub mod idn;
 mod logger;
 mod path;
 mod sync;
