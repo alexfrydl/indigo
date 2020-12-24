@@ -14,7 +14,7 @@ impl Uuid {
     Self(Inner::nil())
   }
 
-  /// Returns true if the UUID is the "nil" value.
+  /// Returns `true` if the UUID is the "nil" value.
   pub fn is_nil(&self) -> bool {
     self.0.is_nil()
   }
