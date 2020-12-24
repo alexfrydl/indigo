@@ -9,12 +9,6 @@
 #[doc(no_inline)]
 pub use {
   crate as indigo,
-  crate::collections::{btree_map, BTreeMap},
-  crate::collections::{btree_set, BTreeSet},
-  crate::collections::{hash_map, HashMap},
-  crate::collections::{hash_set, HashSet},
-  crate::collections::{vec_deque, VecDeque},
-  crate::collections::{Array, ArrayString, ArrayVec},
   crate::derive::*,
   crate::fail::{self, fail, Result},
   crate::fmt::{self, Debug, Describe, Display, Write as _},
@@ -24,7 +18,7 @@ pub use {
   crate::math::Number,
   crate::random::{self, Random},
   crate::stream::{self, Stream, StreamExt},
-  crate::sync::pin,
+  crate::sync::{pin, Lazy},
   crate::time::{self, Date, Duration, Time},
   crate::uuid::{self, Uuid},
   crate::{attempt, attempt_async},

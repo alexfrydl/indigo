@@ -18,16 +18,6 @@ pub use event_listener::{Event, EventListener};
 pub use futures_lite::pin;
 pub use once_cell::sync::{Lazy, OnceCell};
 
-/// A concurrent hash map provided by the `dashmap` crate.
-///
-#[doc(inline)]
-pub use dashmap::DashMap as ConcurrentHashMap;
-
-/// A concurrent hash set provided by the `dashmap` crate.
-///
-#[doc(inline)]
-pub use dashmap::DashSet as ConcurrentHashSet;
-
 /// Blocking concurrency primitives provided by the `parking_lot` crate.
 #[doc(inline)]
 pub use parking_lot as blocking;

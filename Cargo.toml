@@ -15,9 +15,9 @@ default = []
 
 dotenv = ["dotenv_crate", "indigo-proc-macros/dotenv"]
 fs-watch = ["notify"]
-idn = ["unicode-xid"]
+idn = ["im", "unicode-xid"]
 postgres = ["bytes", "native-tls", "postgres-native-tls", "tokio-compat", "tokio-postgres"]
-runtime = ["async-executor", "async-io", "easy-parallel", "num_cpus"]
+runtime = ["async-executor", "async-io", "dashmap", "easy-parallel", "num_cpus"]
 tokio-compat = ["tokio/rt-threaded"]
 
 [dependencies]
@@ -28,12 +28,10 @@ blocking = "0.5"
 chrono = "0.4"
 chrono-tz = "0.5"
 console = "0.12"
-dashmap = "3"
 derive_more = "0.99"
 event-listener = "2"
 futures-lite = "0.1"
 glob = "0.3"
-im = "15"
 indigo-macros = { version = "0.2.0-pre", path = "macros" }
 indigo-proc-macros = { version = "0.2.0-pre", path = "proc-macros" }
 itertools = "0.9"
@@ -49,8 +47,10 @@ uuid = { version = "0.8", features = ["serde", "v4"] }
 
 async-executor = { version = "0.1", optional = true }
 async-io = { version = "0.1", optional = true }
+dashmap = { version = "3", optional = true }
 dotenv_crate = { package = "dotenv", version = "0.15", optional = true }
 easy-parallel = { version = "3", optional = true }
+im = { version = "15", optional = true }
 notify = { version = "4", optional = true }
 num_cpus = { version = "1", optional = true }
 tokio = { version = "0.2", optional = true }

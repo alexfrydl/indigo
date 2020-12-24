@@ -14,19 +14,17 @@ pub mod reader;
 mod span;
 pub mod syn;
 
-#[doc(inline)]
 pub use self::ctx::Context;
 pub use self::error::{abort, err, Error, ErrorList, Result};
 pub use self::from_idn::{FromIdn, TryFromIdn};
-#[doc(inline)]
 pub use self::lex::lex;
-#[doc(inline)]
 pub use self::reader::Reader;
 pub use self::span::{Pos, Span, Spanned};
 pub use self::syn::{Token, Tokens};
 
 use super::idn;
 use crate::prelude::*;
+use std::collections::HashMap;
 
 /// Parses a value of type `T` from a IDN string.
 pub fn parse<T: FromIdn>(input: impl AsRef<str>) -> Result<T, ErrorList> {

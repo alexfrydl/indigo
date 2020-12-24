@@ -5,7 +5,7 @@
 // file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 use crate::prelude::*;
-use crate::sync::{Lazy, Semaphore};
+use crate::sync::Semaphore;
 
 /// A shared semaphore to limit the number of concurrent file system operations.
 static SEMAPHORE: Lazy<Semaphore> = Lazy::new(|| Semaphore::new(8));

@@ -9,7 +9,9 @@ pub use indigo_macros::logger_init as init;
 use crate::log::Level;
 use crate::prelude::*;
 use crate::runtime::task;
-use crate::sync::{blocking::RwLock, channel, ConcurrentHashMap, Lazy};
+use crate::sync::blocking::RwLock;
+use crate::sync::channel;
+use dashmap::DashMap;
 use log_crate::LevelFilter;
 use std::cell::RefCell;
 use std::sync::atomic::{self, AtomicUsize};
@@ -18,7 +20,7 @@ use std::sync::atomic::{self, AtomicUsize};
 struct Logger {
   dropped_messages: AtomicUsize,
   max_level: RwLock<LevelFilter>,
-  max_level_of: ConcurrentHashMap<String, LevelFilter>,
+  max_level_of: DashMap<String, LevelFilter>,
   output: (channel::Sender<String>, channel::Receiver<String>),
 }
 

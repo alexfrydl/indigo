@@ -8,7 +8,6 @@
 
 use crate::fs::path;
 use crate::prelude::*;
-use crate::sync::Lazy;
 use std::io;
 use std::path::{Path, PathBuf};
 

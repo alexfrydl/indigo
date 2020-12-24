@@ -6,10 +6,10 @@
 
 //! Provides the `fail!` macro and a generic cloneable error type.
 
-#[doc(inline)]
 pub use indigo_macros::{fail, fail_err as err, fail_with as with};
 
 use crate::prelude::*;
+use arrayvec::ArrayString;
 
 /// A generic cloneable error.
 #[derive(Clone)]

@@ -12,7 +12,7 @@ pub mod task;
 pub use indigo_proc_macros::runtime_main as main;
 
 use crate::prelude::*;
-use crate::sync::{AtomicBool, Lazy};
+use crate::sync::AtomicBool;
 use crate::thread;
 use async_executor::Executor;
 use easy_parallel::Parallel;
