@@ -21,12 +21,13 @@ mod symbol;
 pub mod sync;
 pub mod thread;
 pub mod time;
+pub mod uuid;
 
 pub use self::fail::fail;
-pub use self::random::random;
+pub use self::random::{random, Random};
 pub use self::symbol::Symbol;
+pub use self::uuid::Uuid;
 pub use indigo_macros::{attempt, attempt_async};
-pub use uuid::{self, Uuid};
 
 #[cfg(feature = "postgres")]
 pub mod postgres;
