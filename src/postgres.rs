@@ -11,6 +11,7 @@ pub use tokio_postgres::types::{FromSql, IsNull, ToSql, Type};
 pub use tokio_postgres::{Client as Connection, Config, RowStream, Transaction};
 
 use crate::prelude::*;
+use crate::runtime::task;
 use native_tls::TlsConnector;
 use postgres_native_tls::MakeTlsConnector;
 

@@ -10,18 +10,15 @@ mod date;
 pub mod duration;
 mod zone;
 
-#[doc(inline)]
-pub use {
-  self::date::Date,
-  self::duration::Duration,
-  self::zone::{Zone, LOCAL, UTC},
-};
+pub use self::date::Date;
+pub use self::duration::Duration;
+pub use self::zone::{Zone, LOCAL, UTC};
 
 use crate::prelude::*;
 use chrono::TimeZone;
 
 #[cfg(feature = "postgres")]
-use postgres::{FromSql, ToSql};
+use crate::postgres as pg;
 
 /// A timestamp with a time zone.
 #[derive(Clone, Copy)]
@@ -175,42 +172,38 @@ impl Display for Time {
 // Implement conversion to and from postgres.
 
 #[cfg(feature = "postgres")]
-impl<'a> FromSql<'a> for Time {
-  fn from_sql(ty: &postgres::Type, raw: &'a [u8]) -> postgres::FromSqlResult<Self> {
-    Ok(Self { inner: FromSql::from_sql(ty, raw)?, zone: Zone::Local })
+impl<'a> pg::FromSql<'a> for Time {
+  fn from_sql(ty: &pg::Type, raw: &'a [u8]) -> pg::FromSqlResult<Self> {
+    Ok(Self { inner: pg::FromSql::from_sql(ty, raw)?, zone: Zone::Local })
   }
 
-  fn accepts(ty: &tokio_postgres::types::Type) -> bool {
-    ty.oid() == postgres::Type::TIMESTAMPTZ.oid()
+  fn accepts(ty: &pg::Type) -> bool {
+    ty.oid() == pg::Type::TIMESTAMPTZ.oid()
   }
 }
 
 #[cfg(feature = "postgres")]
-impl ToSql for Time {
-  fn to_sql(&self, ty: &postgres::Type, out: &mut postgres::BytesMut) -> postgres::ToSqlResult
+impl pg::ToSql for Time {
+  fn to_sql(&self, ty: &pg::Type, out: &mut pg::BytesMut) -> pg::ToSqlResult
   where
     Self: Sized,
   {
-    if ty.oid() == postgres::Type::TIMESTAMP.oid() {
+    if ty.oid() == pg::Type::TIMESTAMP.oid() {
       self.to_naive().to_sql(ty, out)
     } else {
       self.inner.to_sql(ty, out)
     }
   }
 
-  fn accepts(ty: &postgres::Type) -> bool
+  fn accepts(ty: &pg::Type) -> bool
   where
     Self: Sized,
   {
-    ty.oid() == postgres::Type::TIMESTAMP.oid() || ty.oid() == postgres::Type::TIMESTAMPTZ.oid()
+    ty.oid() == pg::Type::TIMESTAMP.oid() || ty.oid() == pg::Type::TIMESTAMPTZ.oid()
   }
 
-  fn to_sql_checked(
-    &self,
-    ty: &postgres::Type,
-    out: &mut postgres::BytesMut,
-  ) -> postgres::ToSqlResult {
-    if ty.oid() == postgres::Type::TIMESTAMP.oid() {
+  fn to_sql_checked(&self, ty: &pg::Type, out: &mut pg::BytesMut) -> pg::ToSqlResult {
+    if ty.oid() == pg::Type::TIMESTAMP.oid() {
       self.to_naive().to_sql_checked(ty, out)
     } else {
       self.inner.to_sql_checked(ty, out)

@@ -7,17 +7,12 @@
 mod matrix;
 mod vector;
 
-#[doc(inline)]
-pub use self::{
-  matrix::Matrix4,
-  vector::{Vector2, Vector3, Vector4},
-};
+pub use self::matrix::Matrix4;
+pub use self::vector::{Vector2, Vector3, Vector4};
+pub use num_traits::identities::{one, zero, One, Zero};
+pub use num_traits::AsPrimitive;
 
-#[doc(inline)]
-pub use num_traits::{
-  identities::{one, zero, One, Zero},
-  AsPrimitive,
-};
+use crate::prelude::*;
 
 /// A trait for types that implement all the basic operations of a number.
 ///

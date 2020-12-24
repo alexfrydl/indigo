@@ -9,7 +9,7 @@ use crate::prelude::*;
 use chrono::TimeZone;
 
 #[cfg(feature = "postgres")]
-use postgres::{FromSql, ToSql};
+use crate::postgres as pg;
 
 #[derive(Clone, Copy, Eq, From, Into, Ord, PartialEq, PartialOrd)]
 pub struct Date(chrono::NaiveDate);
@@ -75,37 +75,33 @@ impl Display for Date {
 // Implement conversion to and from postgres.
 
 #[cfg(feature = "postgres")]
-impl<'a> FromSql<'a> for Date {
-  fn from_sql(ty: &postgres::Type, raw: &'a [u8]) -> postgres::FromSqlResult<Self> {
+impl<'a> pg::FromSql<'a> for Date {
+  fn from_sql(ty: &pg::Type, raw: &'a [u8]) -> pg::FromSqlResult<Self> {
     chrono::NaiveDate::from_sql(ty, raw).map(Date::from)
   }
 
-  fn accepts(ty: &tokio_postgres::types::Type) -> bool {
-    <chrono::NaiveDate as FromSql>::accepts(ty)
+  fn accepts(ty: &pg::Type) -> bool {
+    <chrono::NaiveDate as pg::FromSql>::accepts(ty)
   }
 }
 
 #[cfg(feature = "postgres")]
-impl ToSql for Date {
-  fn to_sql(&self, ty: &postgres::Type, out: &mut postgres::BytesMut) -> postgres::ToSqlResult
+impl pg::ToSql for Date {
+  fn to_sql(&self, ty: &pg::Type, out: &mut pg::BytesMut) -> pg::ToSqlResult
   where
     Self: Sized,
   {
     self.0.to_sql(ty, out)
   }
 
-  fn accepts(ty: &postgres::Type) -> bool
+  fn accepts(ty: &pg::Type) -> bool
   where
     Self: Sized,
   {
-    <chrono::NaiveDate as ToSql>::accepts(ty)
+    <chrono::NaiveDate as pg::ToSql>::accepts(ty)
   }
 
-  fn to_sql_checked(
-    &self,
-    ty: &postgres::Type,
-    out: &mut postgres::BytesMut,
-  ) -> postgres::ToSqlResult {
+  fn to_sql_checked(&self, ty: &pg::Type, out: &mut pg::BytesMut) -> pg::ToSqlResult {
     self.0.to_sql_checked(ty, out)
   }
 }

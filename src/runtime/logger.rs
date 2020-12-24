@@ -8,6 +8,7 @@ pub use indigo_macros::logger_init as init;
 
 use crate::log::Level;
 use crate::prelude::*;
+use crate::runtime::task;
 use crate::sync::{blocking::RwLock, channel, ConcurrentHashMap, Lazy};
 use log_crate::LevelFilter;
 use std::cell::RefCell;

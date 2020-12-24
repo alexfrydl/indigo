@@ -6,9 +6,7 @@
 
 //! Two-dimensional matrices.
 
-use super::{Vector2, Vector3, Vector4};
-
-use crate::prelude::*;
+use super::*;
 
 /// A 4x4 matrix of `T`.
 #[derive(Clone, Copy, PartialEq, Eq)]

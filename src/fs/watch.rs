@@ -9,6 +9,7 @@
 use crate::fs;
 use crate::prelude::*;
 use crate::sync::channel;
+use crate::thread;
 use notify::Watcher as _;
 use std::io;
 use std::sync::mpsc;

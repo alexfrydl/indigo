@@ -8,6 +8,7 @@
 
 #[doc(no_inline)]
 pub use {
+  crate as indigo,
   crate::collections::{btree_map, BTreeMap},
   crate::collections::{btree_set, BTreeSet},
   crate::collections::{hash_map, HashMap},
@@ -17,19 +18,16 @@ pub use {
   crate::derive::*,
   crate::fail::{self, fail, Result},
   crate::fmt::{self, Debug, Describe, Display, Write as _},
-  crate::fs,
   crate::future::{self, Future},
-  crate::iter::{self, Itertools},
+  crate::iter::{self, Itertools as _},
   crate::log::{self, debug, error, info, trace, warn},
-  crate::math::{one, zero, Number, One, Zero},
-  crate::random::{self, Random, Rng},
+  crate::math::Number,
+  crate::random::{self, Random},
   crate::stream::{self, Stream, StreamExt},
-  crate::sync::blocking::unblock,
   crate::sync::pin,
-  crate::thread::{self, Thread},
   crate::time::{self, Date, Duration, Time},
   crate::uuid::{self, Uuid},
-  crate::{self as indigo, attempt, attempt_async},
+  crate::{attempt, attempt_async},
   std::any::Any,
   std::borrow::*,
   std::cmp::{self, Eq, Ord, PartialEq, PartialOrd},
@@ -47,17 +45,6 @@ pub use {
   std::{f32, f64},
   std::{i128, i16, i32, i64, i8, isize},
   std::{u128, u16, u32, u64, u8, usize},
-};
-
-#[cfg(feature = "postgres")]
-#[doc(no_inline)]
-pub use crate::postgres;
-
-#[cfg(feature = "runtime")]
-#[doc(no_inline)]
-pub use crate::{
-  runtime,
-  task::{self, Task},
 };
 
 /// Returns the “default value” for a type.

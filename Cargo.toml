@@ -34,8 +34,8 @@ event-listener = "2"
 futures-lite = "0.1"
 glob = "0.3"
 im = "15"
-indigo-macros = { version = "0.1", path = "macros" }
-indigo-proc-macros = { version = "0.1", path = "proc-macros" }
+indigo-macros = { version = "0.2.0-pre", path = "macros" }
+indigo-proc-macros = { version = "0.2.0-pre", path = "proc-macros" }
 itertools = "0.9"
 log_crate = { package = "log", version = "0.4", features = ["std"] }
 num-traits = "0.2"

@@ -6,6 +6,7 @@
 
 //! Asynchronous tasks.
 
+use super::executor;
 use crate::prelude::*;
 
 /// A handle to a task running a future on the Indigo runtime.
@@ -24,7 +25,7 @@ where
   F: Future + Send + 'static,
   F::Output: Send + 'static,
 {
-  Task { inner: runtime::executor().spawn(future) }
+  Task { inner: executor().spawn(future) }
 }
 
 /// Starts a new asynchronous task that runs to completion in thebackground.

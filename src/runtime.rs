@@ -13,6 +13,7 @@ pub use indigo_proc_macros::runtime_main as main;
 
 use crate::prelude::*;
 use crate::sync::{AtomicBool, Lazy};
+use crate::thread;
 use async_executor::Executor;
 use easy_parallel::Parallel;
 use event_listener::Event;
