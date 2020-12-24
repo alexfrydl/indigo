@@ -19,33 +19,9 @@ use easy_parallel::Parallel;
 use event_listener::Event;
 use std::process::exit;
 
-/// Flag indicating a panic has occurred.
-static IS_PANICKING: Lazy<AtomicBool> = Lazy::new(default);
-
-/// Waits until a panic occurs.
-pub async fn until_panic() {
-  IS_PANICKING.until_eq(true).await
-}
-
 /// Runs the indigo runtime until the given future completes, then exits the
 /// process.
 pub fn run(future: impl Future<Output = Result> + Send + 'static) -> ! {
-  // Install a fail-safe panic hook that exits the process from e.g. detached
-  // tasks.
-
-  let panic_hook = panic::take_hook();
-
-  panic::set_hook(Box::new(move |info| {
-    IS_PANICKING.store(true);
-
-    thread::start_detached("panic fail-safe", || {
-      thread::sleep(Duration::secs(5));
-      exit(101);
-    });
-
-    panic_hook(info)
-  }));
-
   // Ensure that only one runtime is running per process.
 
   static IS_RUNNING: Lazy<AtomicBool> = Lazy::new(default);
