@@ -26,7 +26,6 @@ pub use {
   crate::stream::{self, Stream, StreamExt},
   crate::sync::blocking::unblock,
   crate::sync::pin,
-  crate::task::{self, Task},
   crate::thread::{self, Thread},
   crate::time::{self, Date, Duration, Time},
   crate::uuid::{self, Uuid},
@@ -55,7 +54,11 @@ pub use {
 pub use crate::postgres;
 
 #[cfg(feature = "runtime")]
-pub(crate) use crate::runtime;
+#[doc(no_inline)]
+pub use crate::{
+  runtime,
+  task::{self, Task},
+};
 
 /// Returns the “default value” for a type.
 pub fn default<T: Default>() -> T {

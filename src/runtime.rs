@@ -6,14 +6,7 @@
 
 //! Contains the main entry point code for running Indigo applications.
 
-#[cfg(feature = "window")]
-mod event_loop;
-
-#[cfg(feature = "window")]
-mod window;
-
-#[cfg(feature = "window")]
-pub use self::window::Window;
+pub mod task;
 
 pub use indigo_proc_macros::runtime_main as main;
 
@@ -124,9 +117,5 @@ pub(crate) fn executor() -> &'static Executor {
 
 /// Runs the main thread.
 fn main(future: impl Future<Output = Result> + Send + 'static) -> Result {
-  #[cfg(feature = "window")]
-  event_loop::run(future);
-
-  #[cfg(not(feature = "window"))]
   thread::block_on(future)
 }

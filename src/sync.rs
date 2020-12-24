@@ -17,7 +17,6 @@ pub use {
   self::atomic::*,
   self::request::{request, Request},
   self::semaphore::Semaphore,
-  async_io::Timer,
   event_listener::{Event, EventListener},
   futures_lite::pin,
   once_cell::sync::{Lazy, OnceCell},

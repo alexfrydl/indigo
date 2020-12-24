@@ -20,23 +20,14 @@ pub mod random;
 pub mod stream;
 mod symbol;
 pub mod sync;
-pub mod task;
 pub mod thread;
 pub mod time;
-mod unique_id;
 
-#[doc(inline)]
-pub use {
-  self::fail::fail,
-  self::random::random,
-  self::symbol::Symbol,
-  self::unique_id::UniqueId,
-  indigo_macros::{attempt, attempt_async},
-  uuid::{self, Uuid},
-};
-
-#[cfg(feature = "graphics")]
-pub mod graphics;
+pub use self::fail::fail;
+pub use self::random::random;
+pub use self::symbol::Symbol;
+pub use indigo_macros::{attempt, attempt_async};
+pub use uuid::{self, Uuid};
 
 #[cfg(feature = "postgres")]
 pub mod postgres;
@@ -45,5 +36,7 @@ pub mod postgres;
 pub mod runtime;
 
 #[cfg(feature = "runtime")]
-#[doc(inline)]
-pub use self::runtime::main;
+pub use self::{
+  runtime::main,
+  runtime::task::{self, Task},
+};

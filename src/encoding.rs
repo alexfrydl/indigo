@@ -6,7 +6,6 @@
 
 //! Encoding and decoding utilities.
 
-pub mod base32;
 pub mod base64;
 
 #[cfg(feature = "idn")]

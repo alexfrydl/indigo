@@ -6,5 +6,5 @@
 
 //! Common derive macros.
 
-#[doc(inline)]
-pub use {derive_more::*, indigo_proc_macros::Error};
+pub use derive_more::*;
+pub use indigo_proc_macros::Error;

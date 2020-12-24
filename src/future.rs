@@ -60,6 +60,7 @@ where
 }
 
 /// Waits for a given duration of time to elapse.
+#[cfg(feature = "runtime")]
 pub async fn sleep(duration: Duration) {
   async_io::Timer::new(duration.to_std()).await;
 }
