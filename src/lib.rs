@@ -35,9 +35,6 @@ pub use {
   uuid::{self, Uuid},
 };
 
-#[cfg(feature = "cli")]
-pub mod cli;
-
 #[cfg(feature = "graphics")]
 pub mod graphics;
 

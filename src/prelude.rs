@@ -50,10 +50,6 @@ pub use {
   std::{u128, u16, u32, u64, u8, usize},
 };
 
-#[cfg(feature = "cli")]
-#[doc(no_inline)]
-pub use crate::cli::{structopt, StructOpt};
-
 #[cfg(feature = "postgres")]
 #[doc(no_inline)]
 pub use crate::postgres;

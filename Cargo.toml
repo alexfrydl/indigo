@@ -11,9 +11,8 @@ version = "0.2.0-pre"
 all-features = true
 
 [features]
-default = ["cli", "logger", "runtime"]
+default = ["logger", "runtime"]
 
-cli = ["structopt"]
 dotenv = ["dotenv_crate", "indigo-proc-macros/dotenv"]
 fs-watch = ["notify"]
 graphics = ["gfx-backend", "gfx-descriptor", "gfx-hal"]
@@ -59,7 +58,6 @@ gfx-descriptor = { version = "0.2", optional = true }
 gfx-hal = { version = "0.6", optional = true }
 notify = { version = "4", optional = true }
 num_cpus = { version = "1", optional = true }
-structopt = { version = "0.3", package = "indigo-structopt", path = "structopt", optional = true }
 tokio = { version = "0.2", optional = true }
 unicode-xid = { version = "0.2", optional = true }
 winit = { version = "0.22", optional = true }

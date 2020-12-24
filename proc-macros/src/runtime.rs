@@ -22,21 +22,13 @@ pub fn main(item: proc_macro::TokenStream) -> proc_macro::TokenStream {
       .into();
   }
 
-  // Create a token stream for cli argument parsing.
+  // Require no parameters.
 
-  let (cli_args, cli_parse) = match sig.inputs.len() {
-    0 => (quote! {}, quote! {}),
-    1 => (quote! { cli_args }, quote! { let cli_args = indigo::cli::StructOpt::from_args(); }),
-
-    _ => {
-      return syn::Error::new_spanned(
-        sig.inputs,
-        "An indigo::main function cannot have more than one parameter.",
-      )
+  if !sig.inputs.is_empty() {
+    return syn::Error::new_spanned(sig.inputs, "An indigo::main function cannot have parameters.")
       .to_compile_error()
-      .into()
-    }
-  };
+      .into();
+  }
 
   // Generate code to print errors.
 
@@ -67,10 +59,8 @@ pub fn main(item: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
       #init
 
-      #cli_parse
-
       indigo::runtime::run(async {
-        let result = #name(#cli_args).await;
+        let result = #name().await;
 
         #wrap_result
       })

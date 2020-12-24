@@ -82,26 +82,6 @@ pub fn future_race(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
 ///   Err("This message is written to stderr.".into())
 /// }
 /// ```
-///
-/// ## Parsing command-line arguments
-///
-/// _Requires the `cli` feature._
-///
-/// The `main` function may optionally have one parameter. If this parameter
-/// implements `StructOpt`, it is parsed from the command-line arguments.
-///
-/// ```ignore
-/// #[derive(Debug, StructOpt)]
-/// struct Options {
-///   #[structopt(short, long)]
-///   verbose: bool,
-/// }
-///
-/// #[indigo::main]
-/// async fn main(options: Options) {
-///   println!("{:#?}", options);
-/// }
-/// ```
 #[proc_macro_attribute]
 pub fn runtime_main(
   _: proc_macro::TokenStream,
