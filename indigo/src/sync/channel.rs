@@ -8,16 +8,19 @@
 
 use crate::prelude::*;
 
-use async_channel::{TryRecvError, TrySendError};
+use async_channel::TryRecvError;
 
-/// A cloneable receiver half of a `Channel`.
+/// A cloneable receiver for a channel.
 pub struct Receiver<T> {
-  inner: async_channel::Receiver<T>,
+  rx: async_channel::Receiver<T>,
 }
 
-/// A cloneable sender half of a `Channel`.
+/// A sender for a channel that can only be used once.
+pub struct Once<T>(Sender<T>);
+
+/// A cloneable sender for a channel.
 pub struct Sender<T> {
-  inner: async_channel::Sender<T>,
+  tx: async_channel::Sender<T>,
 }
 
 /// An error indicating that the channel is closed.
@@ -25,91 +28,103 @@ pub struct Sender<T> {
 #[display(fmt = "Channel is closed.")]
 pub struct ClosedError;
 
-/// One of the possible errors returned from `Receiver::recv_now`.
-#[derive(Clone, Copy, Debug, Display, Error)]
-pub enum RecvError {
-  #[display(fmt = "Channel is closed.")]
-  Closed,
-  #[display(fmt = "Channel is empty.")]
-  Empty,
+/// An error that occurred during a [`Channel::send()`] or
+/// [`Channel::try_send()`] call.
+#[derive(Clone, Copy)]
+pub struct SendError<M> {
+  /// The message that failed to send.
+  pub msg: M,
+  /// The reason for this error.
+  pub reason: SendErrorReason,
 }
 
-/// One of the possible errors returned from `Sender::send_now`.
-#[derive(Clone, Copy, Debug, Display, Error)]
-pub enum SendError {
+/// One of the possible kinds of [`SendError`].
+#[derive(Clone, Copy, Debug, Display, Eq, PartialEq)]
+pub enum SendErrorReason {
   #[display(fmt = "Channel is closed.")]
   Closed,
   #[display(fmt = "Channel is full.")]
   Full,
 }
 
-/// Returns a [`Sender`] and [`Receiver`] pair for an bounded channel with a
-/// specified capacity.
+/// Creates a bounded channel with a specified capacity.
 ///
 /// Bounded channels can only buffer up to `capacity` unreceived messages. If
 /// the channels is full, [`Sender:::send()`] will wait for space.
 pub fn bounded<T>(capacity: usize) -> (Sender<T>, Receiver<T>) {
   let (tx, rx) = async_channel::bounded(capacity);
 
-  (Sender { inner: tx }, Receiver { inner: rx })
+  (Sender { tx }, Receiver { rx })
 }
 
-/// Returns a [`Sender`] and [`Receiver`] pair for an unbounded channel.
+/// Creates a channel that can only be sent one message.
+pub fn once<T>() -> (Once<T>, Receiver<T>) {
+  let (tx, rx) = bounded(1);
+
+  (Once(tx), rx)
+}
+
+/// Creates an unbounded channel.
 ///
 /// Unbounded channels can buffer an unlimited number of unreceived messages,
 /// and [`Sender:::send()`] will never wait.
 pub fn unbounded<T>() -> (Sender<T>, Receiver<T>) {
   let (tx, rx) = async_channel::unbounded();
 
-  (Sender { inner: tx }, Receiver { inner: rx })
+  (Sender { tx }, Receiver { rx })
 }
 
 impl<T> Receiver<T> {
-  /// Closes the channel.
-  ///
-  /// This function returns `true` if the channel was open and the function
-  /// closed it, or `false` if the channel was already closed.
-  pub fn close(&self) -> bool {
-    self.inner.close()
-  }
-
   /// Waits for an available message in the channel and then receive it.
   pub async fn recv(&self) -> Result<T, ClosedError> {
-    self.inner.recv().await.map_err(|_| ClosedError)
+    self.rx.recv().await.map_err(|_| ClosedError)
   }
 
-  /// Attempts to immediately receiveü an available message from the channel.
-  pub fn try_recv(&self) -> Result<T, RecvError> {
-    self.inner.try_recv().map_err(|err| match err {
-      TryRecvError::Closed => RecvError::Closed,
-      TryRecvError::Empty => RecvError::Empty,
-    })
+  /// Attempts to immediately receive an available message from the channel.
+  ///
+  /// If the channel is empty, this function returns `None`.
+  pub fn try_recv(&self) -> Result<Option<T>, ClosedError> {
+    match self.rx.try_recv() {
+      Ok(msg) => Ok(Some(msg)),
+      Err(TryRecvError::Empty) => Ok(None),
+      Err(TryRecvError::Closed) => Err(ClosedError),
+    }
   }
 }
 
 impl<T> Sender<T> {
-  /// Closes the channel.
-  ///
-  /// This function returns `true` if the channel was open and the function
-  /// closed it, or `false` if the channel was already closed.
-  pub fn close(&self) -> bool {
-    self.inner.close()
-  }
-
   /// Waits for available space in the channel and then sends a message to it.
   ///
-  /// If the message was sent, this function returns `true`. If the channel is
-  /// closed, it returns `false`.
-  pub async fn send(&self, message: T) -> bool {
-    self.inner.send(message).await.is_ok()
+  /// If the channel is closed before the message can be sent, this function
+  /// returns a [`SendError`] containing the failed message.
+  pub async fn send(&self, message: T) -> Result<(), SendError<T>> {
+    self
+      .tx
+      .send(message)
+      .await
+      .map_err(|err| SendError { msg: err.0, reason: SendErrorReason::Closed })
   }
 
   /// Attempts to immediately sends a message to the channel.
-  pub fn try_send(&self, message: T) -> Result<(), SendError> {
-    self.inner.try_send(message).map_err(|err| match err {
-      TrySendError::Closed(_) => SendError::Closed,
-      TrySendError::Full(_) => SendError::Full,
+  pub fn try_send(&self, message: T) -> Result<(), SendError<T>> {
+    self.tx.try_send(message).map_err(|err| match err {
+      async_channel::TrySendError::Full(msg) => SendError { msg, reason: SendErrorReason::Full },
+      async_channel::TrySendError::Closed(msg) => {
+        SendError { msg, reason: SendErrorReason::Closed }
+      }
     })
+  }
+}
+
+impl<T> Once<T> {
+  pub fn send(self, msg: T) {
+    match self.0.try_send(msg) {
+      Err(err) if err.reason == SendErrorReason::Full => {
+        unreachable!("Once channel should never be full.")
+      }
+
+      _ => {}
+    }
   }
 }
 
@@ -119,7 +134,7 @@ impl<T> Stream for Receiver<T> {
   type Item = T;
 
   fn poll_next(mut self: Pin<&mut Self>, cx: &mut future::Context) -> future::Poll<Option<T>> {
-    Pin::new(&mut self.inner).poll_next(cx)
+    Pin::new(&mut self.rx).poll_next(cx)
   }
 }
 
@@ -127,12 +142,28 @@ impl<T> Stream for Receiver<T> {
 
 impl<T> Clone for Receiver<T> {
   fn clone(&self) -> Self {
-    Self { inner: self.inner.clone() }
+    Self { rx: self.rx.clone() }
   }
 }
 
 impl<T> Clone for Sender<T> {
   fn clone(&self) -> Self {
-    Self { inner: self.inner.clone() }
+    Self { tx: self.tx.clone() }
+  }
+}
+
+// Implement SendError`.
+
+impl<M> std::error::Error for SendError<M> {}
+
+impl<M> Debug for SendError<M> {
+  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    Debug::fmt(&self.reason, f)
+  }
+}
+
+impl<M> Display for SendError<M> {
+  fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    Display::fmt(&self.reason, f)
   }
 }

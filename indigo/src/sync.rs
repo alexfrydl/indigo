@@ -8,11 +8,9 @@
 
 mod atomic;
 pub mod channel;
-pub mod request;
 mod semaphore;
 
 pub use self::atomic::*;
-pub use self::request::{request, Request};
 pub use self::semaphore::Semaphore;
 pub use event_listener::{Event, EventListener};
 pub use futures_lite::pin;
