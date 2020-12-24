@@ -47,17 +47,14 @@ pub fn main(item: proc_macro::TokenStream) -> proc_macro::TokenStream {
     indigo::env::load_dotenv();
   });
 
-  #[cfg(feature = "logger")]
-  init.extend(quote! {
-    indigo::runtime::logger::init!();
-  });
-
   let result = quote! {
     #vis fn main() {
       #(#attrs)*
       #sig #block
 
       #init
+
+      indigo::runtime::logger::init!();
 
       indigo::runtime::run(async {
         let result = #name().await;

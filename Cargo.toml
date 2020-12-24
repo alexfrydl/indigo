@@ -17,7 +17,7 @@ dotenv = ["dotenv_crate", "indigo-proc-macros/dotenv"]
 fs-watch = ["notify"]
 idn = ["unicode-xid"]
 postgres = ["bytes", "native-tls", "postgres-native-tls", "tokio-compat", "tokio-postgres"]
-runtime = ["async-executor", "async-io", "easy-parallel", "indigo-proc-macros/logger", "num_cpus"]
+runtime = ["async-executor", "async-io", "easy-parallel", "num_cpus"]
 tokio-compat = ["tokio/rt-threaded"]
 
 [dependencies]

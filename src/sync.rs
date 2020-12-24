@@ -7,20 +7,16 @@
 //! Synchronization primitives and concurrency utilties.
 
 mod atomic;
-pub mod blocking;
 pub mod channel;
 pub mod request;
 mod semaphore;
 
-#[doc(inline)]
-pub use {
-  self::atomic::*,
-  self::request::{request, Request},
-  self::semaphore::Semaphore,
-  event_listener::{Event, EventListener},
-  futures_lite::pin,
-  once_cell::sync::{Lazy, OnceCell},
-};
+pub use self::atomic::*;
+pub use self::request::{request, Request};
+pub use self::semaphore::Semaphore;
+pub use event_listener::{Event, EventListener};
+pub use futures_lite::pin;
+pub use once_cell::sync::{Lazy, OnceCell};
 
 /// A concurrent hash map provided by the `dashmap` crate.
 ///
@@ -31,3 +27,7 @@ pub use dashmap::DashMap as ConcurrentHashMap;
 ///
 #[doc(inline)]
 pub use dashmap::DashSet as ConcurrentHashSet;
+
+/// Blocking concurrency primitives provided by the `parking_lot` crate.
+#[doc(inline)]
+pub use parking_lot as blocking;
